@@ -6,30 +6,40 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
+
 <h1>Spin To Win!</h1>
+
 <!--reel display//-->
 
-<table id="board">
-<tr>
-  <td class="reel" id="one">0</td>
-  <td class="reel" id="two">0</td>
-  <td class="reel" id="three">0</td>
-</tr>
-
-<!--bets & credits display-->
-
+<div id="box">
+  <table id="board">
+    <tr>
+      <td class="reel" id="one">0</td>
+      <td class="reel" id="two">0</td>
+      <td class="reel" id="three">0</td>
+    </tr>
 <div>Credits: <span class="credit"></span></div>
 <div>Score: <span class="score"></span></div>
 <div>Bets: <span class="bets"></span></div>
+  </table>
+
+<!--bets & credits display-->
+  <div class="bet">
+    <button id="five">5</button>
+    <button id="ten">10</button>
+    <button id="all">All In</button>
+    <button id="spin">spin!</button>
+  </div>
 
 <!--buttons-->
-<div class="bet">
-  <button id="five">5</button>
-  <button id="ten">10</button>
-  <button id="all">All In</button>
-  <button id="spin">spin!</button>
+
 </div>
-</table>
+
+<!--lever-->
+
+  <div>
+  <<img src="" alt="">
+  </div>
   <script src="js/main.js" type="text/javascript"></script>
 </body>
 </html>
