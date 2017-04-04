@@ -1,40 +1,70 @@
-h1 {
-  width: 200px;
-  margin: auto;
-  background-color: lightyellow;
-  border: solid 3px orange;
-  border-radius: 20px;
-}
 
 body {
   text-align: center;
   margin: 0 auto;
   background-image: url("http://i.imgur.com/fGtNd2h.jpg");
+  overflow: auto;
 }
 
+h1 {
+  width: 200px;
+  margin: 50px auto 0;
+  padding: 10px 20px;
+  background-color: lightyellow;
+  border: solid 3px orange;
+  border-radius: 20px;
+  font-size: 18px;
+  font-family: 'Press Start 2P', cursive;
+
+}
 
 table {
-  margin: 45px auto;
+  margin: 45px auto 0px;
   border-collapse: separate;
-  border-spacing: 50px 0;
+  border-spacing: 21px 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+span {
+  text-shadow: 2px 2px black;
+  font-size: 16px;
+  color: gold;
 }
 
 button {
-  width: 50px;
-  height: 50px;
-  margin: auto 20px;
-  color: rgb(212, 175, 0);
+  padding: 10px 10px;
+  margin: 0 5px 0;
+  color: rgb(182, 135, 0);
   border-radius: 10px;
-  border: solid 1px rgb(189, 153, 54);
-  background-color: yellow;
+  border: solid 3px rgb(189, 153, 54);
+  text-shadow: 2px 2px yellow;
+  box-shadow: 0 2px black;
+  background-color: gold;
+  font-size: 12px;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
 }
-
-
 
 div {
   display: inline-block;
   padding: 0 10px;
-  margin: 50px auto;
+  margin: 12% auto;
+}
+
+strong {
+  margin: 0 auto;
+  padding: 20px 100px;
+  background-color: black;
+  border-radius: 15px;
+  color: white;
+}
+
+.instructions {
+  width: 300px;
+  height: 400px;
+  background-color: gold;
+  float: left;
+  font-family: 'Press Start 2P', cursive;
 }
 
 
@@ -48,16 +78,37 @@ div {
   background-image: url("http://i.imgur.com/QBNacpT.jpg");
   background-repeat: no-repeat;
   background-size: 420px;
-
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  display: inline-block;
+  padding: 10px;
 }
 
 .reel {
   width: 90px;
   height: 180px;
   border: solid 2px black;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 72px;
+}
 
+#lever {
+  display: inline-block;
+  position: fixed;
+  margin: 0;
+  overflow: auto;
+}
+
+#lever:hover {
+  display: inline-block;
+  position: fixed;
+  margin: 0;
+  overflow: auto;
+  border: none;
+  border: solid 2px black;
+  border-radius: 50px 50px 50px 0px;
+  padding: 10px 15px 10px 0;
+  cursor: pointer;
 }
 
 
