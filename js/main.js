@@ -44,14 +44,17 @@ function betClick(e) {
       currentBet += allIn;
       currentCredits -= allIn;
   } else if (e.target.id === 'spin') {
-    if (currentBet <= 0) {
+    if (currentBet <= 0)
       alert('must make a bet!');
+    if (currentBet > 0) {
+
+      console.log('clicked');
     }
-    console.log('clicked');
   }
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
 }
+
 
 // returns win if reels match, otherwise currentBets = 0, re-init;
   //if Spin clicked and bet = 0, cant play
@@ -70,9 +73,9 @@ function handleClick(){ // also activates spin alongside the spin button
 }
 
 
-function randomNumberGenerator() {
-  return Math.floor((Math.random() * 9) + 1);
-}
+// function randomNumberGenerator() {
+//   return Math.floor((Math.random() * 9) + 1);
+// }
 
 function hasPlayerWon() {
   if (cells[0] === cells[1] === cells[2]) {
@@ -89,22 +92,46 @@ function hasPlayerWon() {
   document.querySelector('.score').textContent = score;
 }
 
-// /* win logic stuff */
+/* win logic stuff */
 
-//  if (rng === 1 || rng === 4 || rng === 7) {
-//    var randomVar = "&spades;";}
-//  if (rng === 2 || rng === 5 || rng === 8) {
-//    var randomVar = "&hearts;";}
-//  if (rng === 3 || rng === 6 || rng === 9) {
-//    var randomVar = "&diams;";}
+function getRandomValue() { //creates randomly generated charac
+  var possibleVals = ['a', 'b', 'c', 'd', 'e']
+  shuffleArr(possibleVals)
+  console.log('possibleVals', possibleVals)
+  var randomIndex = Math.floor((Math.random() * possibleVals.length));
+  console.log('randomIndex',randomIndex)
+  return possibleVals[randomIndex]
+}
 
-function populateCellsWithRandomNumbers(){
+function shuffleArr(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
+
+function populateCellsRandomValues(){
   cells.forEach(function(elem, index){
-    cells[index] = randomNumberGenerator()
+    cells[index] = getRandomValue()//randomNumberGenerator()
   })
   return cells;
 }
-console.log(populateCellsWithRandomNumbers())
+console.log(populateCellsRandomValues())
+
+// function replaceNumbersWithSymbols(cells){
+//    if (cells === 1 || cells === 4 || cells === 7) {
+//      return "&spades;";}
+//    else if (cells === 2 || cells === 5 || cells === 8) {
+//      return "&hearts;";}
+//    else if (cells === 3 || cells === 6 || cells === 9) {
+//      return "&diams;";}
+//   }
+
+
 function render(wheelValues) {
 
   var wheelDictionary = {
@@ -113,6 +140,13 @@ function render(wheelValues) {
     2: '#two'
   }
 
+  //justins atempt//
+
+  // var symbol = []
+  // for(var i =0; i<cells.length;i++){
+  //   symbol.push(replaceNumbersWithSymbols(cells[i]
+
+  // }
 
   wheelValues.forEach(function(elem, index) {
     document.querySelector(wheelDictionary[index]).innerHTML = elem;
