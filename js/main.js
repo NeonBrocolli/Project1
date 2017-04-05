@@ -1,19 +1,23 @@
-console.log('its ALIVE!');
 // variables //
 var cells, currentBet, currentCredits, score, winner, gameOverMsg;
 
-cells = [1,2,3];
-
+var images = [
+  'https://s-media-cache-ak0.pinimg.com/736x/4a/72/4c/4a724c3b25c0700d0123ac614a4be818.jpg',
+  'https://s-media-cache-ak0.pinimg.com/236x/58/5f/b0/585fb0353a431e1575e119e9db478822.jpg',
+  'https://s-media-cache-ak0.pinimg.com/736x/c4/0c/ff/c40cffeb5e447c467b6db1e7d34f209d.jpg'
+];
 
 // event listener //
 
 document.getElementById('board').addEventListener('click', init);
 document.querySelector('.bet').addEventListener('click', betClick);
-document.getElementById('lever').addEventListener('click', handleClick);
+document.getElementById('lever').addEventListener('click', handleSpin);
+document.getElementById('spin').addEventListener('click', handleSpin);
 
 // initialize //
   //display containers with values
 function init(){
+  cells = [1, 2, 3];
   currentBet = 0;
   currentCredits = 100;
   score = currentCredits;
@@ -22,7 +26,7 @@ function init(){
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
   document.querySelector('.score').textContent = score;
-
+  render();
 }
 
 // functions //
@@ -43,21 +47,63 @@ function betClick(e) {
   } else if (e.target.id === 'all') {
       currentBet += allIn;
       currentCredits -= allIn;
-  } else if (e.target.id === 'spin') {
-    if (currentBet <= 0)
-      alert('must make a bet!');
-    if (currentBet > 0) {
-
-      console.log('clicked');
-    }
   }
-  document.querySelector('.credit').textContent = currentCredits;
-  document.querySelector('.bets').textContent = currentBet;
+  render();
 }
 
 
 // returns win if reels match, otherwise currentBets = 0, re-init;
   //if Spin clicked and bet = 0, cant play
+
+
+function handleSpin(){ // also activates spin alongside the spin button
+  if (currentBet <= 0) {
+    alert('must make a bet!');
+    return;
+  }
+  score = 0;
+  // fill cells with 3 random ints between 0 and images.length - 1
+  cells = getResult();
+  score = computeWinnings();
+  currentCredits += score;
+
+  flashRandomImages(0, function() {
+    render();
+  });
+}
+
+function flashRandomImages(duration, cb) {
+  // ice box: flash random images for certain amount of time & play fun sound
+  setTimeout(function() {
+    cb();
+  }, duration);
+  // setInterval here to flash / total time should be no longer than duration
+}
+
+function getResult() {
+  var result = [];
+  for (var i = 0; i < images.length; i++) {
+    result.push(Math.floor((Math.random() * images.length)));
+  }
+  return result;
+}
+
+function computeWinnings() {
+  // return amount of winnings or 0 if they didn't win
+  var winnings = 0;
+
+  if (cells[0] === cells[1] && cells[0] === cells[2]) {
+    winnings = currentBet * 5;
+  } else if (currentCredits >= 100) {
+    winnings = currentBet * 2;//displays score updated if player earns more
+  }
+
+  if (currentCredits === 1000) {
+    alert('CASH OUT!');//winning alert but player can keep playing
+  }
+
+  return winnings;
+}
 
 function didPlayerLose() {
   if (currentCredits - currentBets <= 0){
@@ -65,95 +111,14 @@ function didPlayerLose() {
   }
 }
 
-function handleClick(){ // also activates spin alongside the spin button
-    if (currentBet <= 0) {
-      alert('must make a bet!');
-    }
-  console.log('clicked!');
-}
-
-
-// function randomNumberGenerator() {
-//   return Math.floor((Math.random() * 9) + 1);
-// }
-
-function hasPlayerWon() {
-  if (cells[0] === cells[1] === cells[2]) {
-    currentCredits += (currentBet / 5) * currentCredits;
-  }
-
-  if (currentCredits >= 100) {
-    return score = currentCredits;//displays score updated if player earns more
-  }
-
-  if (currentCredits === 1000) {
-    alert('CASH OUT!');//winning alert but player can keep playing
-  }
+function render() {
+  // render wheels
+  cells.forEach(function(symbolIdx, index) {
+    document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
+  });
+  document.querySelector('.credit').textContent = currentCredits;
+  document.querySelector('.bets').textContent = currentBet;
   document.querySelector('.score').textContent = score;
 }
-
-/* win logic stuff */
-
-function getRandomValue() { //creates randomly generated charac
-  var possibleVals = ['a', 'b', 'c', 'd', 'e']
-  shuffleArr(possibleVals)
-  console.log('possibleVals', possibleVals)
-  var randomIndex = Math.floor((Math.random() * possibleVals.length));
-  console.log('randomIndex',randomIndex)
-  return possibleVals[randomIndex]
-}
-
-function shuffleArr(a) {
-    var j, x, i;
-    for (i = a.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = a[i - 1];
-        a[i - 1] = a[j];
-        a[j] = x;
-    }
-}
-
-
-function populateCellsRandomValues(){
-  cells.forEach(function(elem, index){
-    cells[index] = getRandomValue()//randomNumberGenerator()
-  })
-  return cells;
-}
-console.log(populateCellsRandomValues())
-
-// function replaceNumbersWithSymbols(cells){
-//    if (cells === 1 || cells === 4 || cells === 7) {
-//      return "&spades;";}
-//    else if (cells === 2 || cells === 5 || cells === 8) {
-//      return "&hearts;";}
-//    else if (cells === 3 || cells === 6 || cells === 9) {
-//      return "&diams;";}
-//   }
-
-
-function render(wheelValues) {
-
-  var wheelDictionary = {
-    0: '#zero',
-    1: '#one',
-    2: '#two'
-  }
-
-  //justins atempt//
-
-  // var symbol = []
-  // for(var i =0; i<cells.length;i++){
-  //   symbol.push(replaceNumbersWithSymbols(cells[i]
-
-  // }
-
-  wheelValues.forEach(function(elem, index) {
-    document.querySelector(wheelDictionary[index]).innerHTML = elem;
-  })
-}
-
-
-render(cells);
 
 init();
