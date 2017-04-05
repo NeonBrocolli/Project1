@@ -16,7 +16,7 @@ document.getElementById('lever').addEventListener('click', handleClick);
 function init(){
   currentBet = 0;
   currentCredits = 100;
-  score = '';
+  score = currentCredits;
   winner = 1000;
   gameOverMsg = '';
   document.querySelector('.credit').textContent = currentCredits;
@@ -62,7 +62,7 @@ function didPlayerLose() {
   }
 }
 
-function handleClick(){ // also activates along side spin button
+function handleClick(){ // also activates spin alongside the spin button
     if (currentBet <= 0) {
       alert('must make a bet!');
     }
@@ -79,20 +79,24 @@ function hasPlayerWon() {
     currentCredits += (currentBet / 5) * currentCredits;
   }
 
-  if (currentCredits > 100) {
-    return score = currentCredits;
+  if (currentCredits >= 100) {
+    return score = currentCredits;//displays score updated if player earns more
   }
-  console.log(score);
+
+  if (currentCredits === 1000) {
+    alert('CASH OUT!');//winning alert but player can keep playing
+  }
+  document.querySelector('.score').textContent = score;
 }
 
 // /* win logic stuff */
 
 //  if (rng === 1 || rng === 4 || rng === 7) {
-//    elem = "&spades;";}
+//    var randomVar = "&spades;";}
 //  if (rng === 2 || rng === 5 || rng === 8) {
-//    elem = "&hearts;";}
+//    var randomVar = "&hearts;";}
 //  if (rng === 3 || rng === 6 || rng === 9) {
-//    elem = "&diams;";}
+//    var randomVar = "&diams;";}
 
 function populateCellsWithRandomNumbers(){
   cells.forEach(function(elem, index){
