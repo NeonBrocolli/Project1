@@ -1,4 +1,4 @@
-// variables //
+
 var cells, currentBet, currentCredits, score, winner, gameOverMsg;
 var images = [
   'http://i.imgur.com/YdRMttx.png',
@@ -93,12 +93,14 @@ function computeWinnings() {
   var winnings = 0;
 
   if (cells[0] === cells[1] && cells[0] === cells[2]) {
-    winnings = currentBet * 5;
+    winnings = currentBet * 3;
+    currentBet = 0;
+  } else if (cells[0] === cells[1] || cells[1] === cells[2]) {
+    winnings = currentBet * 2;
+    currentBet = 0;
   } else if (currentCredits >= 100) {
     winnings = currentBet * 2;//displays score updated if player earns more
-  }
-
-  if (currentCredits === 1000) {
+  } else if (currentCredits === 1000) {
     alert('CASH OUT!');//winning alert but player can keep playing
   }
 
