@@ -87,6 +87,7 @@ strong {
 .reel {
   width: 90px;
   height: 180px;
+  margin-top: 50px 0;
   border: solid 2px black;
   border-radius: 12px;
   font-size: 72px;

@@ -1,11 +1,11 @@
 // variables //
 var cells, currentBet, currentCredits, score, winner, gameOverMsg;
-
 var images = [
-  'https://s-media-cache-ak0.pinimg.com/736x/4a/72/4c/4a724c3b25c0700d0123ac614a4be818.jpg',
-  'https://s-media-cache-ak0.pinimg.com/236x/58/5f/b0/585fb0353a431e1575e119e9db478822.jpg',
-  'https://s-media-cache-ak0.pinimg.com/736x/c4/0c/ff/c40cffeb5e447c467b6db1e7d34f209d.jpg'
+  'http://i.imgur.com/YdRMttx.png',
+  'http://i.imgur.com/n04yKgC.png',
+  'http://i.imgur.com/VSWfCbk.png',
 ];
+
 
 // event listener //
 
@@ -106,7 +106,7 @@ function computeWinnings() {
 }
 
 function didPlayerLose() {
-  if (currentCredits - currentBets <= 0){
+  if (currentCredits - currentBets < 0){
       alert('Try Again!');
   }
 }
@@ -115,6 +115,11 @@ function render() {
   // render wheels
   cells.forEach(function(symbolIdx, index) {
     document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
+    document.getElementById(index).style.backgroundRepeat = `no-repeat`;
+    document.getElementById(index).style.backgroundSize = `contain`;
+    document.getElementById(index).style.backgroundPosition = `center center`;
+    document.getElementById(index).style.backgroundColor = `white`;
+
   });
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
