@@ -6,7 +6,6 @@ var images = [
   'http://i.imgur.com/VSWfCbk.png',
 ];
 
-
 // event listener //
 
 document.getElementById('board').addEventListener('click', init);
@@ -17,7 +16,7 @@ document.getElementById('spin').addEventListener('click', handleSpin);
 // initialize //
   //display containers with values
 function init(){
-  cells = [1, 2, 3];
+  cells = [];
   currentBet = 0;
   currentCredits = 100;
   score = currentCredits;
@@ -61,6 +60,8 @@ function handleSpin(){ // also activates spin alongside the spin button
     alert('must make a bet!');
     return;
   }
+  //$('leverimg').hide()
+  //$('leverimg').
   score = 0;
   // fill cells with 3 random ints between 0 and images.length - 1
   cells = getResult();
@@ -92,31 +93,36 @@ function computeWinnings() {
   // return amount of winnings or 0 if they didn't win
   var winnings = 0;
 
-  if (cells[0] === cells[1] && cells[0] === cells[2]) {
-    winnings = currentBet * 3;
+  if (cells[0] === cells[1] && cells[1] === cells[2]) {
+    winnings = currentBet * 10;
     currentBet = 0;
-  } else if (cells[0] === cells[1] || cells[1] === cells[2]) {
-    winnings = currentBet * 2;
+  } else if (cells[0] === cells[1] && cells[1] !== cells[2]) {
+    winnings = currentBet;
     currentBet = 0;
-  } else if (currentCredits >= 100) {
-    winnings = currentBet * 2;//displays score updated if player earns more
-  } else if (currentCredits === 1000) {
-    alert('CASH OUT!');//winning alert but player can keep playing
+  } else if (cells[0] !== cells[1] && cells[1] === cells[2]) {
+    winnings = currentBet;
+    currentBet = 0;
+  // } if (score >= 1000) {
+  //   alert('CASH OUT!');//winning alert but player can keep playing
+  } else {
+    currentBet = 0;
   }
-
+  if (currentCredits === 0 && currentBet === 0) {
+    currentBet = 0;
+    console.log('Loss!');
+  }
   return winnings;
 }
 
-function didPlayerLose() {
-  if (currentCredits - currentBets < 0){
-      alert('Try Again!');
-  }
+function computeLoss() {
 }
 
 function render() {
   // render wheels
   cells.forEach(function(symbolIdx, index) {
     document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
+
+    // set all this into a css var and then edit it IN css
     document.getElementById(index).style.backgroundRepeat = `no-repeat`;
     document.getElementById(index).style.backgroundSize = `contain`;
     document.getElementById(index).style.backgroundPosition = `center center`;
