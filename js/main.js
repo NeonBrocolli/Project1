@@ -1,5 +1,6 @@
 
-var cells, currentBet, currentCredits, score, winner, gameOverMsg;
+// variables //
+var cells, currentBet, currentCredits, score;
 var images = [
   'http://i.imgur.com/YdRMttx.png',
   'http://i.imgur.com/n04yKgC.png',
@@ -14,14 +15,11 @@ document.getElementById('lever').addEventListener('click', handleSpin);
 document.getElementById('spin').addEventListener('click', handleSpin);
 
 // initialize //
-  //display containers with values
 function init(){
   cells = [];
   currentBet = 0;
   currentCredits = 100;
-  score = currentCredits;
-  winner = 1000;
-  gameOverMsg = '';
+  score = '';
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
   document.querySelector('.score').textContent = score;
@@ -66,7 +64,7 @@ function handleSpin(){ // also activates spin alongside the spin button
   // fill cells with 3 random ints between 0 and images.length - 1
   cells = getResult();
   score = computeWinnings();
-  currentCredits += score;
+  //currentCredits += score;
 
   flashRandomImages(0, function() {
     render();
@@ -96,25 +94,21 @@ function computeWinnings() {
   if (cells[0] === cells[1] && cells[1] === cells[2]) {
     winnings = currentBet * 10;
     currentBet = 0;
+    return 'Jack Pot!'
   } else if (cells[0] === cells[1] && cells[1] !== cells[2]) {
     winnings = currentBet;
     currentBet = 0;
   } else if (cells[0] !== cells[1] && cells[1] === cells[2]) {
     winnings = currentBet;
     currentBet = 0;
-  // } if (score >= 1000) {
-  //   alert('CASH OUT!');//winning alert but player can keep playing
   } else {
     currentBet = 0;
   }
   if (currentCredits === 0 && currentBet === 0) {
     currentBet = 0;
-    console.log('Loss!');
+    return 'Too Bad!';
   }
   return winnings;
-}
-
-function computeLoss() {
 }
 
 function render() {
@@ -126,7 +120,6 @@ function render() {
     document.getElementById(index).style.backgroundRepeat = `no-repeat`;
     document.getElementById(index).style.backgroundSize = `contain`;
     document.getElementById(index).style.backgroundPosition = `center center`;
-    document.getElementById(index).style.backgroundColor = `white`;
 
   });
   document.querySelector('.credit').textContent = currentCredits;
