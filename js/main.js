@@ -10,7 +10,7 @@ var slotsPlayer = new Audio('http://www.freesound.org/data/previews/118/118237_1
 slotsPlayer.loop = true;
 
 // event listener //
-document.getElementById('board').addEventListener('click', init);
+document.getElementById('start').addEventListener('click', init);
 document.querySelector('.bet').addEventListener('click', betClick);
 document.getElementById('lever').addEventListener('click', handleSpin);
 document.getElementById('spin').addEventListener('click', handleSpin);
@@ -75,7 +75,13 @@ function handleSpin(){ //activates spin buttons
     slotsPlayer.pause();
     render();
   });
-   if (score >= 1000) message =  "Chicken Dinner!";
+  if (score >= 1000) {
+    message =  "Chicken Dinner!";
+  } else if (score === 500) {
+    message = "Jack Pot!";
+  } else if (score === 0) {
+    message = ""
+  }
    // showWinImage(function(){
    //  render();
    // });
@@ -104,8 +110,16 @@ function flashRandomImages(cb) {
 
 // will show a gif if player wins
 function showWinImage() {
-  console.log('bloop!');
-
+  var imgTime = 0;
+  var imgShow = 60;
+  for (let i = 0; i <=imgShow; i++) {
+  document.getElementById("winImage").style.visibility = 'visible';
+    setTimeout(function() {
+      document.getElementById("winImage").style.visibility = 'hidden';
+      if (imgTime > 1) imgTime = 0;
+      if (i >= imgShow) cb();
+    });
+  }
 }
 
 function getResult() {
@@ -122,13 +136,10 @@ function computeWinnings() {
 
   if (cells[0] === cells[1] && cells[1] === cells[2]) { // all 3 are same
     currentCredits = (currentBet * 10) + currentCredits;
-    message = "Jack Pot!";
   } else if (cells[0] === cells[1] && cells[1] !== cells[2]) { // 2 are same
     currentCredits = currentBet + currentCredits;
-    message = "Try Again!";
   } else if (cells[0] !== cells[1] && cells[1] === cells[2]) { // 2 are same
     currentCredits = currentBet + currentCredits;
-    message = "Try Again!";
   }
   winnings += currentCredits;
   currentBet = 0;
