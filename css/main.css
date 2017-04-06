@@ -25,6 +25,12 @@ table {
   font-family: 'Press Start 2P', cursive;
 }
 
+#board td {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
 span {
   text-shadow: 2px 2px rgb(255,65,14);
   font-size: 16px;

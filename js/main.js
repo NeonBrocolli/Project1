@@ -22,7 +22,7 @@ function init(){
   score = '';
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
-  document.querySelector('.score').textContent = score;
+  //document.querySelector('.score').textContent = score;
   render();
 }
 
@@ -30,6 +30,7 @@ function init(){
   //Adds 5/10/Allin points to bets, subtracts from credits//
 
 function betClick(e) {
+  if (e.target.textContent === 'spin!') return;
   var number = {"five": 5, "ten": 10};
   var allIn = currentCredits;
 
@@ -55,7 +56,8 @@ function betClick(e) {
 
 function handleSpin(){ // also activates spin alongside the spin button
   if (currentBet <= 0) {
-    alert('must make a bet!');
+    score = 'Make a Bet!';//alert('must make a bet!');
+    render();
     return;
   }
   //$('leverimg').hide()
@@ -64,18 +66,30 @@ function handleSpin(){ // also activates spin alongside the spin button
   // fill cells with 3 random ints between 0 and images.length - 1
   cells = getResult();
   score = computeWinnings();
-  //currentCredits += score;
+  if (!score) score = "Too bad!";
+  currentCredits += score;
 
-  flashRandomImages(0, function() {
+  flashRandomImages(function() {
     render();
   });
 }
 
-function flashRandomImages(duration, cb) {
-  // ice box: flash random images for certain amount of time & play fun sound
-  setTimeout(function() {
-    cb();
-  }, duration);
+function flashRandomImages(cb) {
+  // flash random images for certain amount of time & play fun sound
+  var reel = 0;
+  var numFlashes = 100;
+  var accumTime = 0;
+  for (let i = 0; i <= numFlashes; i++) {
+    var rndTime = Math.floor(Math.random() * 50) + 50;
+    setTimeout(function() {
+      var image = images[Math.floor(Math.random() * images.length)];
+      document.getElementById(reel).style.backgroundImage = `url(${image})`;
+      reel++;
+      if (reel > 2) reel = 0;
+      if (i >= numFlashes) cb();
+    }, accumTime + rndTime);
+    accumTime += rndTime;
+  }
   // setInterval here to flash / total time should be no longer than duration
 }
 
@@ -93,21 +107,13 @@ function computeWinnings() {
 
   if (cells[0] === cells[1] && cells[1] === cells[2]) {
     winnings = currentBet * 10;
-    currentBet = 0;
-    return 'Jack Pot!'
+    //return 'Jack Pot!'
   } else if (cells[0] === cells[1] && cells[1] !== cells[2]) {
     winnings = currentBet;
-    currentBet = 0;
   } else if (cells[0] !== cells[1] && cells[1] === cells[2]) {
     winnings = currentBet;
-    currentBet = 0;
-  } else {
-    currentBet = 0;
   }
-  if (currentCredits === 0 && currentBet === 0) {
-    currentBet = 0;
-    return 'Too Bad!';
-  }
+  currentBet = 0;
   return winnings;
 }
 
@@ -115,12 +121,6 @@ function render() {
   // render wheels
   cells.forEach(function(symbolIdx, index) {
     document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
-
-    // set all this into a css var and then edit it IN css
-    document.getElementById(index).style.backgroundRepeat = `no-repeat`;
-    document.getElementById(index).style.backgroundSize = `contain`;
-    document.getElementById(index).style.backgroundPosition = `center center`;
-
   });
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
