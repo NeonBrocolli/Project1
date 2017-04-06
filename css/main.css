@@ -63,6 +63,7 @@ strong {
   background-color: black;
   border-radius: 15px;
   color: white;
+  border: dotted 3px gold;
 }
 
 .instructions {
