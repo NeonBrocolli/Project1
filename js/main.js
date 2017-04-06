@@ -1,6 +1,5 @@
-
 // variables //
-var cells, currentBet, currentCredits, score;
+var cells, currentBet, currentCredits, score, message;
 var images = [
   'http://i.imgur.com/YdRMttx.png',
   'http://i.imgur.com/n04yKgC.png',
@@ -19,9 +18,8 @@ function init(){
   cells = [];
   currentBet = 0;
   currentCredits = 100;
-  score = '';
-  document.querySelector('.credit').textContent = currentCredits;
-  document.querySelector('.bets').textContent = currentBet;
+  message = '';
+  score = 0;
   //document.querySelector('.score').textContent = score;
   render();
 }
@@ -33,7 +31,6 @@ function betClick(e) {
   if (e.target.textContent === 'spin!') return;
   var number = {"five": 5, "ten": 10};
   var allIn = currentCredits;
-
   if (e.target.id === 'five') {
     if (currentCredits <= 0) return;
       currentBet += number.five;
@@ -56,7 +53,7 @@ function betClick(e) {
 
 function handleSpin(){ // also activates spin alongside the spin button
   if (currentBet <= 0) {
-    score = 'Make a Bet!';//alert('must make a bet!');
+    message = 'Make a Bet!';//alert('must make a bet!');
     render();
     return;
   }
@@ -66,32 +63,35 @@ function handleSpin(){ // also activates spin alongside the spin button
   // fill cells with 3 random ints between 0 and images.length - 1
   cells = getResult();
   score = computeWinnings();
-  if (!score) score = "Too bad!";
   currentCredits += score;
-
-  flashRandomImages(function() {
-    render();
-  });
-}
-
-function flashRandomImages(cb) {
-  // flash random images for certain amount of time & play fun sound
-  var reel = 0;
-  var numFlashes = 100;
-  var accumTime = 0;
-  for (let i = 0; i <= numFlashes; i++) {
-    var rndTime = Math.floor(Math.random() * 50) + 50;
-    setTimeout(function() {
-      var image = images[Math.floor(Math.random() * images.length)];
-      document.getElementById(reel).style.backgroundImage = `url(${image})`;
-      reel++;
-      if (reel > 2) reel = 0;
-      if (i >= numFlashes) cb();
-    }, accumTime + rndTime);
-    accumTime += rndTime;
+console.log(score);
+  if (score === 0) {
+    message = "Try Again!";
   }
-  // setInterval here to flash / total time should be no longer than duration
+  // flashRandomImages(function() {
+  //   render();
+  // });
+    render();
 }
+
+// function flashRandomImages(cb) {
+//   // flash random images for certain amount of time & play fun sound
+//   var reel = 0;
+//   var numFlashes = 100;
+//   var accumTime = 0;
+//   for (let i = 0; i <= numFlashes; i++) {
+//     var rndTime = Math.floor(Math.random() * 50) + 50;
+//     setTimeout(function() {
+//       var image = images[Math.floor(Math.random() * images.length)];
+//       document.getElementById(reel).style.backgroundImage = `url(${image})`;
+//       reel++;
+//       if (reel > 2) reel = 0;
+//       if (i >= numFlashes) cb();
+//     }, accumTime + rndTime);
+//     accumTime += rndTime;
+//   }
+//   // setInterval here to flash / total time should be no longer than duration
+// }
 
 function getResult() {
   var result = [];
@@ -105,13 +105,12 @@ function computeWinnings() {
   // return amount of winnings or 0 if they didn't win
   var winnings = 0;
 
-  if (cells[0] === cells[1] && cells[1] === cells[2]) {
-    winnings = currentBet * 10;
-    //return 'Jack Pot!'
-  } else if (cells[0] === cells[1] && cells[1] !== cells[2]) {
-    winnings = currentBet;
-  } else if (cells[0] !== cells[1] && cells[1] === cells[2]) {
-    winnings = currentBet;
+  if (cells[0] === cells[1] && cells[1] === cells[2]) { // all 3 are same
+    currentCredits = currentBet * 10;
+  } else if (cells[0] === cells[1] && cells[1] !== cells[2]) { // 2 are same
+    currentCredits = currentBet + currentCredits;
+  } else if (cells[0] !== cells[1] && cells[1] === cells[2]) { // 2 are same
+    currentCredits = currentBet + currentCredits;
   }
   currentBet = 0;
   return winnings;
@@ -120,11 +119,11 @@ function computeWinnings() {
 function render() {
   // render wheels
   cells.forEach(function(symbolIdx, index) {
-    document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
+  document.getElementById(index).style.backgroundImage = `url(${images[symbolIdx]})`;
   });
   document.querySelector('.credit').textContent = currentCredits;
   document.querySelector('.bets').textContent = currentBet;
-  document.querySelector('.score').textContent = score;
+  document.querySelector('.score').textContent = message;
 }
 
 init();
