@@ -90,7 +90,7 @@ strong {
   padding: 10px;
 }
 
-.reel {
+#reel-0, #reel-1, #reel-2 {
   width: 90px;
   height: 180px;
   margin-top: 50px 0;
