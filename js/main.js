@@ -75,19 +75,20 @@ function handleSpin(){ //activates spin buttons
     slotsPlayer.pause();
     render();
   });
-   if (score >= 200) message =  "Chicken Dinner!";
+   if (score >= 1000) message =  "Chicken Dinner!";
    // showWinImage(function(){
    //  render();
    // });
+   console.log(score);
 }
 
 function flashRandomImages(cb) {
   // flash random images for certain amount of time & play fun sound
   var reel = 0;
-  var numFlashes = 100;
+  var numFlashes = 60;
   var accumTime = 0;
   for (let i = 0; i <= numFlashes; i++) {
-    var rndTime = Math.floor(Math.random() * 50) + 50;
+    var rndTime = Math.floor(Math.random() * 40) + 40;
     setTimeout(function() {
       var image = images[Math.floor(Math.random() * images.length)];
       reelEls[reel].style.backgroundImage = `url(${image})`;
