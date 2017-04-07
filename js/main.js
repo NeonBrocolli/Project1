@@ -65,23 +65,15 @@ function handleSpin(){ //activates spin buttons
     render();
     return;
   }
-  //$('leverimg').hide()
-  //$('leverimg').
   score = 0;
   cells = getResult();
   score = computeWinnings();
   slotsPlayer.play();
   flashRandomImages(function() {
     slotsPlayer.pause();
+    if (message === "Jack Pot!") showWinImage();
     render();
   });
-  if (score >= 1000) {
-    message =  "Chicken Dinner!";
-  } else if (score === 500) {
-    message = "Jack Pot!";
-  } else if (score === 0) {
-    message = ""
-  }
    // showWinImage(function(){
    //  render();
    // });
@@ -110,16 +102,20 @@ function flashRandomImages(cb) {
 
 // will show a gif if player wins
 function showWinImage() {
-  var imgTime = 0;
-  var imgShow = 60;
-  for (let i = 0; i <=imgShow; i++) {
-  document.getElementById("winImage").style.visibility = 'visible';
-    setTimeout(function() {
-      document.getElementById("winImage").style.visibility = 'hidden';
-      if (imgTime > 1) imgTime = 0;
-      if (i >= imgShow) cb();
-    });
-  }
+  document.getElementById("winImage").className = 'vis';
+  setTimeout(function() {
+    document.getElementById("winImage").classList.remove('vis');
+  }, 4000);
+  // var imgTime = 0;
+  // var imgShow = 60;
+  // for (let i = 0; i <=imgShow; i++) {
+  // document.getElementById("winImage").style.visibility = 'visible';
+  //   setTimeout(function() {
+  //     document.getElementById("winImage").style.visibility = 'hidden';
+  //     if (imgTime > 1) imgTime = 0;
+  //     if (i >= imgShow) cb();
+  //   });
+  // }
 }
 
 function getResult() {
@@ -133,15 +129,16 @@ function getResult() {
 function computeWinnings() {
   // return amount of winnings or 0 if they didn't win
   var winnings = 0;
-
   if (cells[0] === cells[1] && cells[1] === cells[2]) { // all 3 are same
-    currentCredits = (currentBet * 10) + currentCredits;
-  } else if (cells[0] === cells[1] && cells[1] !== cells[2]) { // 2 are same
-    currentCredits = currentBet + currentCredits;
-  } else if (cells[0] !== cells[1] && cells[1] === cells[2]) { // 2 are same
-    currentCredits = currentBet + currentCredits;
+    winnings = currentBet * 10;
+    message = "Jack Pot!";
+  } else if (cells[0] === cells[1] || cells[1] === cells[2]) { // 2 are same
+    winnings = currentBet * 5;
+    message = "Not Bad!";
+  } else { // 2 are same
+    message = "Try Again!";
   }
-  winnings += currentCredits;
+  currentCredits += winnings;
   currentBet = 0;
   return winnings;
 }

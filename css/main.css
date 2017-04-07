@@ -67,28 +67,55 @@ strong {
   border: dotted 3px gold;
 }
 
+
+
 #board td {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
 }
 
-#winImage {
-  visibility: hidden;
-}
-
 aside.instructions {
-  width: 500px;
+  width: 400px;
   height: 300px;
-  padding: 10px;
+  padding: 15px;
   background-color: rgb(13,108,66);
   color: white;
-  float: right;
   font-family: 'Press Start 2P', cursive;
-  text-align: left;
   text-shadow: 2px 4px black;
+  text-align: left;
   font-size: 12px;
+  float: right;
 }
+
+aside.info {
+  width: 400px;
+  height: 300px;
+  padding: 15px;
+  background-color: rgb(13,108,66);
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 2px 4px black;
+  text-align: left;
+  font-size: 12px;
+  float: left;
+}
+
+#winImage {
+  visibility: hidden;
+  width: 300px;
+  height: 400px;
+  margin: 0 auto;
+  z-index: 1;
+  position: absolute;
+}
+
+#winImage.vis {
+  visibility: visible;
+}
+
+/*aside.winimage {
+}*/
 
 #box {
   text-align: center;
@@ -123,15 +150,15 @@ aside.instructions {
 
 #lever {
   display: inline-block;
-  position: fixed;
-  margin: 0;
+  position: absolute;
+  margin: 50px 0 0;
   overflow: auto;
 }
 
 #lever:hover {
   display: inline-block;
-  position: fixed;
-  margin: 0;
+  position: absolute;
+  margin: 50px auto 0;
   overflow: auto;
   border: none;
   border: solid 2px rgba(255,255,0, .7);
@@ -141,8 +168,8 @@ aside.instructions {
   box-shadow: 0px 0px 30px yellow;
 }
 
-footer {
+footer.clear {
   padding: 50px;
-  margin: 0 auto;
+  margin: auto;
   clear: both;
 }
