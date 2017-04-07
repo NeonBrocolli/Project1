@@ -1,21 +1,22 @@
 // variables //
-var cells, currentBet, currentCredits, score, message;
+var cells, currentBet, currentCredits, score, message, click;
 var images = [
   'http://i.imgur.com/YdRMttx.png',
   'http://i.imgur.com/n04yKgC.png',
   'http://i.imgur.com/VSWfCbk.png',
 ];
-
+// audio
 var slotsPlayer = new Audio('http://www.freesound.org/data/previews/118/118237_1430216-lq.mp3');
 slotsPlayer.loop = true;
 
 // event listener //
+document.getElementById('board').addEventListener('click', madClick);
 document.getElementById('start').addEventListener('click', init);
 document.querySelector('.bet').addEventListener('click', betClick);
 document.getElementById('lever').addEventListener('click', handleSpin);
 document.getElementById('spin').addEventListener('click', handleSpin);
 
-//cached dom elements
+// cached dom elements //
 var reelEls = [
   document.getElementById('reel-0'),
   document.getElementById('reel-1'),
@@ -28,6 +29,7 @@ var messageEl = document.querySelector('.score');
 // initialize //
 function init(){
   cells = [];
+  click = 0;
   currentBet = 0;
   currentCredits = 100;
   message = '';
@@ -57,9 +59,10 @@ function betClick(e) {
 }
 
 
-  // returns win if reels match, otherwise currentBets = 0, re-init;
+
+  // returns win if reels match, reset bets to 0;
   //if Spin clicked and bet = 0, cant play
-function handleSpin(){ //activates spin buttons
+function handleSpin(){
   if (currentBet <= 0) {
     message = 'Make a Bet!';
     render();
@@ -74,10 +77,6 @@ function handleSpin(){ //activates spin buttons
     if (message === "Jack Pot!") showWinImage();
     render();
   });
-   // showWinImage(function(){
-   //  render();
-   // });
-   console.log(score);
 }
 
 function flashRandomImages(cb) {
@@ -99,23 +98,20 @@ function flashRandomImages(cb) {
   // setInterval here to flash / total time should be no longer than duration
 }
 
+//counts click and then resets progress displays funny message
+function madClick() {
+  click += 1;
+  if (click === 5) message = "Stop That!";
+  render();
+}
 
-// will show a gif if player wins
+
+//show a gif if player wins
 function showWinImage() {
   document.getElementById("winImage").className = 'vis';
   setTimeout(function() {
     document.getElementById("winImage").classList.remove('vis');
   }, 4000);
-  // var imgTime = 0;
-  // var imgShow = 60;
-  // for (let i = 0; i <=imgShow; i++) {
-  // document.getElementById("winImage").style.visibility = 'visible';
-  //   setTimeout(function() {
-  //     document.getElementById("winImage").style.visibility = 'hidden';
-  //     if (imgTime > 1) imgTime = 0;
-  //     if (i >= imgShow) cb();
-  //   });
-  // }
 }
 
 function getResult() {
@@ -144,7 +140,7 @@ function computeWinnings() {
 }
 
 function render() {
-  // render wheels
+  // render reels
   cells.forEach(function(symbolIdx, index) {
     reelEls[index].style.backgroundImage = `url(${images[symbolIdx]})`;
   });
