@@ -76,6 +76,7 @@ strong {
 aside.instructions {
   width: 400px;
   height: 400px;
+  margin-top: 50px;
   padding: 15px;
   background-color: rgb(13,108,66);
   color: white;
@@ -84,12 +85,14 @@ aside.instructions {
   text-align: left;
   font-size: 12px;
   float: right;
+  border-radius: 20px;
   line-height: 130%
 }
 
 aside.info {
   width: 400px;
   height: 500px;
+  margin-top: 50px;
   padding: 15px;
   background-color: rgb(13,108,66);
   color: white;
@@ -98,7 +101,18 @@ aside.info {
   text-align: left;
   font-size: 12px;
   float: left;
+  border-radius: 20px;
   line-height: 130%;
+}
+
+#start {
+  float: right;
+  margin: 20px;
+}
+
+h3 {
+  color: gold;
+  text-shadow: rgb(255,65,14);
 }
 
 #winImage {
